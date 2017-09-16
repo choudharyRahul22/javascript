@@ -1,0 +1,40 @@
+// To clone a repo from github to local system
+git clone https://github.com/choudharyRahul22/javascript
+
+// move to github repo
+cd javascript
+
+//will show the current status what is in repo and in local system
+git status
+
+// will add the file to repo
+git add javascript.txt
+
+// will lock the file for adding
+git commit -m "javascript.txt file"
+
+// will add the file to repo
+git push
+
+**************************************************
+//To pull back the update code from git repo to some other system
+
+// To clone a repo from github to local system
+git clone https://github.com/choudharyRahul22/javascript
+
+// move to github repo
+cd javascript
+
+// To get the update code or checkout
+git pull
+
+TO UPDATE IN REPO
+
+// will add the file to repo -A will add all
+git add javascript.txt or git add -A
+
+// will lock the file for adding
+git commit -m "javascript.txt file"
+
+// will add the file to repo
+git push

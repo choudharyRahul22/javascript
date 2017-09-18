@@ -152,4 +152,151 @@ app.js:10 Var num 10
 app.js:11 Invoked function a
 app.js:19 Var num 20
 
-The Scope Chain:
+The Scope Chain: scope means where i can access a variable and scope chain means access chain for example.
+
+Sixth Code:
+-----------
+app.js
+
+function b() {
+    console.log('From b() ' + name)
+}
+
+function a() {
+    var name = 'Rahul';
+    console.log('From a() ' + name);
+    b();
+}
+
+var name = 'Shalu';
+console.log('Var name ' + name);
+
+a();
+
+Var name Shalu
+app.js:7 From a() Rahul
+app.js:2 From b() Shalu
+
+function b, function a and variable name is sitting lexically on global execution context.
+so function b dont have variable name so it will look at outer reference, remember each execution context has global object, this, outer reference, running code.
+
+so function b outer reference (where function b is physically sitting) is global exectuion context thats why we get Shalu here.
+
+Seventh Code:
+-------------
+app.js
+
+function a() {
+    var name = 'Rahul';
+    console.log('From a() ' + name);
+    
+    function b() {
+    console.log('From b() ' + name)
+    }
+    
+    b();
+}
+
+var name = 'Shalu';
+console.log('Var name ' + name);
+
+a();
+
+Var name Shalu
+app.js:5 From a() Rahul
+app.js:8 From b() Rahul
+
+function b lexically (physically) sists on function a , on function a it will search for variable name, and here it finds variable name.
+
+Eight Code:
+-----------
+
+app.js
+
+function a() {
+     
+    function b() {
+    console.log('From b() ' + name)
+    }
+    
+    b();
+}
+
+var name = 'Shalu';
+console.log('Var name ' + name);
+
+a();
+
+Var name Shalu
+app.js:4 From b() Shalu
+
+Above first it finds function b lexically (physically) sits on function a but in function a we dont have variable name, than it again look for outer reference this time function a is lexically sits on global execution context and we find variable name.
+
+Asynchronous Callback: More than one at a time, The browser has rendring engine, javascript engine and http request which all works asynchronously.
+Javascript engine runs synchronously.
+
+We have execution context and events queue in javascript.
+browser will put events like click on event queue once the execution stack will be empty than it will look for event queue, and runs the click hanlder function execution context.
+
+or like javascript will request some data using http so it will put it on event queue and once the execution stack is empty it will handle the http request.
+
+For example:
+
+Nineth Code:
+------------
+app.js
+
+function waitForThreeSeconds() {
+    var ms = 3000+ new Date().getTime();
+    
+    while(new Date() < ms) {
+    }
+    
+    console.log('Finished Function waitForThreeSeconds');
+}
+
+function clickHandler() {
+    console.log('Click handler');
+}
+
+document.addEventListener('click',clickHandler);
+
+waitForThreeSeconds();
+
+console.log('Finished Execution of program');
+
+Finished Function waitForThreeSeconds
+app.js:18 Finished Execution of program
+
+above the browser will load after 3 second as we call function waitForThreeSeconds and this will run on global execution context.
+if we click anywhere on document than it will be register in event queue and once the execution context is finished than event queue will run.
+
+Finished Function waitForThreeSeconds
+app.js:18 Finished Execution of program
+app.js:11 Click handler
+
+Types and Javascript: Dynamic Typing : you dont tell the engine what tyoe of data a variable holds, it figures it out while your code is running.
+
+Primitve Types in javascript : A type of data that represents a single value, that is not a object (a key value pair).
+1.undefined : varaible sets initially
+2.null : sets variable to nothing
+3.boolean : true or false
+4.number : floating point number
+5.String : sequence of charater both in single and double quotes
+6.symbol : used in ES6, not support by all browsers.
+
+Operators: A special function that is written differently, genrally operator takes 2 parameters and return 1 result.
+operators are functions, + is function which take 2 variable and return a number
++(3,4) prefix notation
+(3,4)+ postfix notation
+3 + 4  infix notation 
+
+similarly there are other functions like > which take 2 argument and return boolean
+var a = 4 > 3;
+console.log(a); true
+
+
+
+
+
+

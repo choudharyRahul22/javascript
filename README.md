@@ -443,10 +443,81 @@ c. function "method"
 
 Note: function inside object known as method.
 
-Object has reference to these property and methods
+Object has reference to these property and methods.
+
+Fourteenth Code:
+----------------
+app.js
+
+var rahul = {
+    firstName: 'Rahul',
+    lastName: 'Choudhary',
+    address: {
+        street: 'VVIP Addresses',
+        city: 'Ghaziabad',
+        state: 'U.P'
+    }
+}
+
+function data(person){
+    console.log('Hi ' + person.firstName);
+}
+
+data(rahul);
+
+data({
+    firstName: 'Shalu',
+    lastName: 'Choudhary'
+})
+
+Namespace:
+----------
+A container for variables and functions, typically to keep variable and functions with same name seprate.
+
+Fifteenth Code:
+---------------
+app.js
+
+var greet = 'Hello';
+var greet = 'Hola';
+
+console.log(greet);
 
 
+var english = {
+    greet : 'Hello'
+}
 
+var spanish = {
+    greet : 'Hola'
+}
+
+console.log(english.greet);
+console.log(spanish.greet);
+
+Json and Object Literal:
+------------------------
+Json object notation is inspired from js object notation.
+json is subset of js, a valid json will be a valid js but reverse is not always true.
+in json the key should be in double quotes, in js we can have or we cant.
+
+Sixteenth Code:
+---------------
+app.js
+
+var js = {
+    firstName: 'Rahul',
+    lastName: 'Choudhary'
+}
+
+console.log(JSON.stringify(js));
+
+var jsonValue = JSON.parse('{"firstName": "Shalu","lastName": "Bhalu"}');
+                      
+console.log(jsonValue);
+
+{"firstName":"Rahul","lastName":"Choudhary"}
+{firstName: "Shalu", lastName: "Bhalu"}
 
 
 

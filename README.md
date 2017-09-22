@@ -519,6 +519,432 @@ console.log(jsonValue);
 {"firstName":"Rahul","lastName":"Choudhary"}
 {firstName: "Shalu", lastName: "Bhalu"}
 
+Functions are Objects:
+----------------------
+First Class Function: Everything you do with other type you can do with functions.
+We can assign functions to a variable, pass then as a argument, even create them on the fly.
+
+Functions : we can attach primitive, objects, other functions to a function.
+functions has name and code.
+function without name are anonymous functions.
+
+functions are objects and these name and code property sits on object.
+we can invoke code property using () on object.
+
+Seventeenth Code:
+-----------------
+app.js
+
+function greet() {
+    console.log('hi');
+}
+
+// attach variable to function
+greet.firstName = 'Rahul';
+greet.lastName = 'Choudhary';
+
+// attach object to function
+greet.address = {
+    city: 'Bareilly'
+}
+
+// attach function as variable to function
+greet.fullName = function() { 
+    console.log(greet.firstName + " " + greet.lastName);
+}
+
+greet();
+console.log(greet);
+
+console.log(greet.firstName);
+
+console.log(greet.address);
+
+greet.fullName();  
+
+Function Statements and Function Expressions:
+---------------------------------------------
+Expression: a unit of code that result in a value.
+Statement: just does work.
+
+example: if statement, if is a statement that just do the work and didnt return anything, but for if we require if(expression), this expression return a value here it return boolean.
+
+Eighteenth Code:
+----------------
+app.js
+
+// function statement
+
+function greet() {
+    console.log('greet');
+}
+
+greet();
+
+
+// function expression
+
+var greeting = function() {
+    console.log('greeting')
+}
+
+greeting();
+
+// passing function expressions
+
+function log(a) {
+    a();
+}
+
+log(function() {
+    console.log('logging');
+})
+
+above function greet is in global execution context, in creation phase the function greet will save in memory and greeting is a variable which will assign to undefined.
+if we run greet function before define we wont get any error as function greet is in memory but if we run variable greeting before define (that is undefined) we will get Uncaught error undefined is not a function.
+
+By Value Vs By Reference:
+-------------------------
+By value: all primitives behaves as by value. = see we have primitive on right so it will create a copy and assign the value to left.
+var a = 1; a points to 1
+var b = a ; a new copy of a will be created and b will point to that.
+
+By reference: all objects (including functions) behaves as by reference. = see we have object on right so it will point the same object for the left variable.
+var person = {} ; person point to object 
+var rahul = person; no copy will be created rahul will point to same object which is point by person.
+
+For example i known by 2 name Rahul and Sunny(by value) but my address is same(by reference).
+
+muttate : to chnage a value.
+immutatble : which cant be change.
+
+Nineteenth Code:
+----------------
+app.js
+
+// by value
+
+var a = 3;
+
+var b = a;
+
+a = 2;
+
+console.log(a);
+console.log(b);
+
+// by reference
+
+var c = {
+    greeting : 'welcome'
+}
+
+var d = c;
+
+c.greeting = 'welcome back';
+
+console.log(c);
+console.log(d);
+
+// by reference (as parameter)
+function greet(s) {
+    s.greeting = 'Hola';
+}
+
+greet(c);
+
+console.log(c);
+console.log(d);
+
+// equals operator sets up new memory space (new address)
+
+c = {greeting:'Welcome in spanish'};
+
+console.log(c);
+console.log(d);
+
+Objects Functions and This:
+---------------------------
+When execution context is created (creation phase) we have variable environment, this, outer environment.
+
+Twenty Code:
+------------
+app.js
+
+// this on global execution context point to window object.
+console.log(this);
+
+// function statement with this : this will point to window object
+function a() {
+    console.log(this);
+    this.attchToGlobal = 'Global variable';
+}
+
+// function expression with this : this will point to window object
+var b = function() {
+    console.log(this);
+}
+
+a();
+console.log(attchToGlobal);
+b();
+
+//
+var c = {
+    name: 'rahul',
+    log: function(){
+        console.log(this);
+        this.name = 'shalu';
+        console.log(this);
+    } 
+}
+
+c.log();
+
+// not a bug its how js engine behaves
+
+console.log('*************************');
+
+var d = {
+    name: 'rahul',
+    log: function(){
+        console.log(this);
+        this.name = 'shalu';
+        console.log(this);
+        
+        var setName = function(name){
+            // this will point to global window object, you can see the variable is set to global object
+            this.name = name;
+        }
+        setName('new chnaged name');
+        console.log(this);
+    } 
+}
+
+d.log();
+// setNmae function sets the name to window object/global object
+console.log(name);
+
+// overcome above by using self
+console.log('*************************');
+var e = {
+    name: 'rahul',
+    log: function(){
+        var self = this;
+        console.log(self);
+        self.name = 'shalu';
+        console.log(self);
+        
+        var setName = function(name){
+            self.name = name;
+        }
+        setName('new chnaged name');
+        console.log(self);
+    } 
+}
+
+e.log();
+
+Arrays:
+-------
+Collection of anything.
+Normally a array holds a collection of things of pirticular type like strings or numbers.
+But js is dynamically typed so it holds string, number, objects, functions.
+
+TwentyOne Code:
+---------------
+app.js
+
+var numbers = [1,2,3,4];
+console.log(numbers);
+
+console.log(numbers[0]);
+
+var arr = [
+        1,
+        true,
+        {
+            name: 'rahul'
+        },
+        function(name){
+            console.log(name);
+        },
+        'String'
+        
+];
+
+console.log(arr);
+
+arr[3](arr[2].name);
+
+Arguments and Spread:
+---------------------
+When a execution context is created we get :
+variable environment, this, outer environment, and arguments
+arguments contains list of all arguments that we pass to a function.
+
+arguments: parameters that we pass to a function. js gives us keyword of same name which contains them all.
+
+TwentyTwo Code:
+---------------
+app.js
+
+function greet(firstName, lastName, language) {
+    
+    language = language || 'English';
+    
+    if(arguments.length === 0){
+        console.log('Missing Parameters');
+        return;
+    }
+    
+    console.log(firstName);
+    console.log(lastName);
+    console.log(language);
+    console.log(arguments);
+    console.log('arg[0] : '+arguments[0]);
+    console.log('-------------')
+    
+}
+
+greet();
+greet('Rahul');
+greet('Rahul','Choudhary');
+greet('Rahul','Choudhary','Hindi');
+
+Function Overloading:
+---------------------
+function with same name but with different parameters.
+we dont have function overloading in js but we have first class functions.
+we can achive function overloading by using different patterns one is below.
+
+TwentyThree Code:
+------------------
+app.js
+
+function greet(firstName, lastName, language) {
+    
+    language = language || 'en';
+    
+    if(language === 'en')
+    console.log('Hello ' + firstName + ' ' + lastName);
+    
+    if(language === 'es')
+    console.log('Hola ' + firstName + ' ' + lastName);
+    
+}
+
+function greetEnglish(firstName, lastName){
+    greet(firstName,lastName,'en');
+}
+
+function greetSpanish(firstName, lastName){
+    greet(firstName,lastName,'es');
+}
+
+greetEnglish('Rahul','Choudhary');
+greetSpanish('Rahul','Choudhary');
+
+Automatic Semicolon Insertion by Syntax Parser:
+-----------------------------------------------
+syntax parser will put ; for us automatically.
+return : sysntax parser will read r...e...t..u..r...n than expect a ';' if we dont provide it will put by own.
+
+TwentyFour Code:
+----------------
+app.js
+
+function greet() {
+    
+    /* if we do like this syntax parser will put ; for us and code will return from line no 4 
+    return
+    {
+        firstName:'Rahul'
+    }*/
+    
+    // always use this way
+    return {
+        firstName:'Rahul'
+    }
+    
+}
+
+console.log(greet());
+
+Whitespace:
+-----------
+invisible characters that create literal space in your written code.
+like when we do carraige return (enter), tab , space in our code.
+
+TwentyFive Code:
+----------------
+app.js
+
+var
+
+    // firstname of person
+    firstname,
+    
+    // lastname of person
+    lastname,
+    
+    // language of person
+    language;
+
+var person = {
+    // firstname key value pair
+    firstname:'Rahul',
+    
+    // lastname key value pair
+    lastname:'Choudhary',
+}
+
+console.log(person);
+
+(IIFE)s Immediately Invoked Function Expressions:
+-------------------------------------------------
+we can create the function expression and call it on the fly.
+
+TwentySix Code:
+---------------
+app.js
+
+// function statement
+function greet(name) {
+    console.log('Hello ' + name);
+}
+greet('Rahul');
+
+// function expression
+var greetFun = function(name){
+    console.log('Hello ' + name);
+}
+greetFun('Shalu');
+
+// IIFE , below code will return greeting function, and how do we invoke a function by using (), so greeting('Choudhary') is same as below.
+var greeting = function(name){
+    console.log('Hello ' + name);
+}('Choudhary');
+
+// below greetings is a string which contian value which is return by IIFE.
+var greetings = function(name){
+    return 'Hello ' + name;
+}('Rahul Choudhary');
+console.log(greetings);
+
+// () always take expression, we have function expression which we can pass to it.We can call our function using ()
+(function(name){
+    console.log('Hello from IIFE : ' + name);
+}('Rahul Choudhary'));
+
+
+
+
+
+
+
+
+
 
 
 

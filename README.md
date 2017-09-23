@@ -937,10 +937,196 @@ console.log(greetings);
     console.log('Hello from IIFE : ' + name);
 }('Rahul Choudhary'));
 
+If we talk about the below code:
+--------------------------------
+// () always take expression, we have function expression which we can pass to it.We can call our function using ()
+var greeting = 'Hola';
+(function(thisKeyword,globalObject,name){
+        console.log(thisKeyword);
+        console.log(globalObject);
+        thisKeyword.greeting = 'Heloooooo';
+        console.log('Hello from IIFE : ' + name);
+}(this,window,'Rahul Choudhary'));
+console.log(greeting);
+
+first global execution context will be created, we dont have any function statement, we dont have any variable, we have function expression which is anonymous.
+global execution context will have anonymous function ().
+once it reach }('Rahul Choudhary')); this will invoke the function.
+New execution context will be created, greeting variable will be created on this function execution context and it didnot polute the global object.
+
+Closures:
+---------
+accessing the variables of function which is poped off the execution context.
+will look the example first.
+
+TwentySeven Code:
+-----------------
+app.js
+
+// function statement : return sum of 2 numbers
+function addition(num1, num2) {
+    return num1 + num2;
+}
+var total = addition(1,2);
+console.log('Addition of 1 and 2 using function statement : ' + total);
+
+// function expression : return multipication of 2 numbers
+var multipication = function(num1, num2) {
+    return num1 * num2;
+}
+var mul = multipication(2,3);
+console.log('Multipication of 2 and 3 using function expression : ' +mul);
+
+// IIFE 
+(function(num1,num2){
+    console.log('Substraction using IIFE : ' + (num1 - num2));
+}(5,1));
 
 
+// closures : 
+function add(num1){
+    return function(num2){
+        return num1 + num2;
+    };
+}
+var add = add(2)(5);
+console.log('Addition using Closures : ' + add);
+
+we will talk about the last one that is closures only.
+what just happen : global execution context is created on which it finds a function and puts in memory, we call this function in line var add = add(2)(5);
+which creates a new execution context, on this execution context we have num1 variable once we reach the return statement, this function add poped off the execution context and return the function below:
+function(num2){
+        return num1 + num2;
+    };
+we call the function by just adding (5);
+var add = add(2)(5);
+once this function is called a new execution context is created with variable num2.
+But if we see we find we also require num1 which was on the add execution context.
+Thanks to js engine which will not collect this garbage value, return function will point to variable which is still in memory (num1).
+
+So function poped off but its variable is still avaiable and return function still use the poped off function variable, (function which is poped off and function which uses the poped off function variable are closed to each other thats why we used word closures.)
+
+Understanding Closures:
+-----------------------
+
+TwentyEight Code:
+-----------------
+app.js
+
+// problem
+function buildFunctions(){
+    
+    var arr = [];
+    
+    for(var i = 0 ; i < 3 ; i++ ) {
+        arr.push(function(){
+            console.log(i);
+        });
+    }
+    
+    return arr;
+}
+
+var returnVal = buildFunctions();
+
+returnVal[0](); 3
+returnVal[1](); 3
+returnVal[2](); 3
+
+console.log('----------------------')
+
+// solution
+function buildFunctions2(){
+    
+    var arr = [];
+    
+    for(var i = 0 ; i < 3 ; i++ ) {
+        arr.push(
+            (function(j){
+                return function(){
+                    console.log(j);
+                }
+             }(i))
+        );
+    }
+    
+    return arr;
+}
+
+var returnVal2 = buildFunctions2();
+
+returnVal2[0](); 0
+returnVal2[1](); 1
+returnVal2[2](); 2
 
 
+we need to create 3 execution context where each execution context contains 0,1,2 for value of i.
+This is possible if we use IIFE 3 times and we have to return the function which we can invoke later.
+
+Another Example Closures:
+-------------------------
+
+TwentyNine Code:
+----------------
+app.js
+
+function makeGreeting(language){
+    
+    return function(firstname,lastname){
+        
+        if(language === 'en')
+            console.log('Hello ' + firstname + ' ' + lastname);
+        
+        if(language === 'es')
+            console.log('Hola ' + firstname + ' ' + lastname);
+        
+    }
+    
+}
+
+// 2 execution context will be created, one for greetEnglish and one for greetSpanish in memory, greetEnglish hold 'en' and greetSpanish holds 'es'.
+var greetEnglish = makeGreeting('en');
+var greetSpanish = makeGreeting('es');
+
+greetEnglish('Rahul','Choudhary');
+greetSpanish('Shalu','Choudhary');
+
+Callback Functions:
+-------------------
+A function you give to another function, to be run when another function is finished.
+example:
+setTimeout(function(){},3000);
+we call setTimeout function and gives it anonymous function, once setTimeout function finished off (after 3000 sec) it will call back the anonymous function.
+
+Thirty Code:
+------------
+app.js
+
+function callback(){
+    
+    var greeting  = 'Rahul';
+    console.log(greeting);
+    
+    setTimeout(function(){
+        
+        greeting = 'Shalu';
+        console.log(greeting);
+        
+    },3000);
+     
+}
+
+callback();
+
+Call Apply and Bind :
+---------------------
+As we already talked function are objects.
+functions have ...
+a.name property  : name of function 
+b.code property  : which is invokeable using ()
+c.call() method  : function inside object are called method
+d.apply() method : function inside object are called method
+e.bind() method  : function inside object are called method
 
 
 

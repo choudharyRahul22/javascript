@@ -1129,6 +1129,178 @@ d.apply() method : function inside object are called method
 e.bind() method  : function inside object are called method
 
 
+ThirtyOne Code:
+---------------
+app.js
+
+// bind
+
+var person = {
+    
+    firstname:'Rahul',
+    lastname:'Choudhary',
+    getFullName:function(){
+        return this.firstname + ' ' + this.lastname;
+    }
+}
+
+var loggedName = function(language1 , language2){
+    
+    console.log('Logged Name : ' + this.getFullName());
+    console.log('Arguments : ' + language1 + ' ' + language2);
+    console.log('-----------------')
+}
+
+var logged = loggedName.bind(person);
+
+logged('en','es');
+
+we have person object and loggedName function, inside loggedName function we use this keyword which will point to globalexecution context as called on global execution context, on this keyword if we call getFullName() we will get error that
+getFullName() is not on this or global object.
+Now how to pass person object to loggedName function?
+using bind keyword: we will do var logged = loggedName.bind(person);
+we called .bind on loggedName not on loggedName() as loggedName is actual object which has property and methods on it.
+above line will create a copy of loggedName function and pass it the person object, now where ever we use this, it will point to person object.
+
+//call
+loggedName.call(person,'en','es');
+
+above line: call will do what () do on function that it invoke the function.
+.call() takes 2 arguments first-argument is what this point to and second arguments.
+
+// apply
+loggedName.call(person,['en','es']);
+
+above line: same as call just in takes arguments as array.
+
+// other way issue IIFE
+(
+    function(language1 , language2){
+    
+    console.log('Logged Name : ' + this.getFullName());
+    console.log('Arguments : ' + language1 + ' ' + language2);
+    console.log('-----------------')
+}
+).apply(person,['Hindi','English']);
+
+dose same as apply do above.
+
+Function Currying:
+------------------
+create a copy of function but with some preset parameters.useful in mathematics
+situations.
+
+// function curring
+function multiply(a,b){
+    return a*b;
+}
+
+var mul = multiply.bind(this,2);
+console.log(mul(4));
+
+above: whatever we pass to bind will attch on that function permanently.
+ex: multiply.bind(this,2); will bind this and 2 as first parameter permanently.
+if we call mul(4); this will be the second argument and 2 as first argument always.
+if we call mul(3,4); this will take second argument as 3 and 2 as first argument always.
+
+ex: multiply.bind(this,2,3); will bind 2 as first argument and 3 as second argument always.
+if we call mul(4); it wont make any difference and we will get 2*3 = 6 always.
+if we call mul(3,4); it wont make any difference and we will get 2*3 = 6 always.
+
+Functional Programming:
+-----------------------
+Pass functions as parameter and return functions. which minimizes the code.
+
+ThirtyTwo Code:
+---------------
+app.js
+
+// first way 
+var arr1 = [1,2,3];
+console.log(arr1);
+
+var arr2 = [];
+for(var i=0; i < arr1.length ; i++){
+    arr2.push(arr1[i] * 2);
+}
+
+console.log(arr2);
+
+
+// second way
+function mapForEach(array,fun){
+    
+    var newArray = [];
+    
+    for(var i=0; i < array.length ; i++){
+       // console.log('Var i ' + i);
+        newArray.push(fun(array[i]));
+        
+    }
+    
+    return newArray;
+    
+}
+
+var copyArray = mapForEach(arr1,function(item){
+    //console.log('Item ' + item);
+    return item * 3;
+})
+
+var copyArray2 = mapForEach(arr1,function(item){
+   // console.log('Item ' + item);
+    return item > 2;
+})
+
+console.log(copyArray);
+console.log('copyArray2 : ' + copyArray2);
+
+var checkPassesLimit = function(limiter,item){
+    return item > limiter;
+}
+
+var copyArray3 = mapForEach(arr1,checkPassesLimit.bind(this,1));
+console.log('copyArray3 : ' + copyArray3);
+
+var checkPassesLimitSimplified = function(limiter){
+    return function(limiter,item){
+    return item > limiter;
+}.bind(this,limiter);
+}
+
+var copyArray4 = mapForEach(arr1,checkPassesLimitSimplified(2));
+console.log('copyArray4 : ' + copyArray4);
+
+Using underscore.js:
+--------------------
+opensource js lib
+
+ThirtyThree code:
+-----------------
+app.js // make sure you attch underscore.js before your app.js
+
+// first way 
+var arr1 = [1,2,3];
+console.log(arr1);
+
+// using underscore.js map function
+console.log(_.map(arr1,function(item){return item*4; }));
+
+
+// using underscore.js filter function
+var allNumbers = [1,2,3,4,5,6,7,8,9,10];
+console.log( _.filter(allNumbers,function(item){
+                      return item % 2 === 0; }
+                     ));
+
+
+Object Oriented Javascript and Prototypal Inheritance:
+------------------------------------------------------
+Inheritance : One object get access to the properties and methods of other object.
+
+Classical Inheritance: we are using this long time , as we do in java.
+Prototypal Inheritance: simple, flexiable, extensible, easy to understand.
+
 
 
 

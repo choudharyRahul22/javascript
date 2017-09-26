@@ -10,17 +10,22 @@ var person = {
 
 var rahul = {
     firstname: 'Rahul',
-    lastname:'Choudhary',
+    address:'Bareilly'
 }
 
-// dont do this ever for demo purpose only, as this will slow down the execution
-rahul.__proto__ = person;
+// using underscore .js for inheritance
+
+_.extend(rahul,person);
+
+console.log(rahul);
+
+console.log(rahul.firstname);
+
+console.log(rahul.address);
 
 console.log(rahul.getFullName());
 
-var shalu = {
-    firstname: 'Rahul',
-}
 
-shalu.__proto__ = person;
-console.log(shalu.getFullName());
+
+
+

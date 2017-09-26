@@ -1301,6 +1301,78 @@ Inheritance : One object get access to the properties and methods of other objec
 Classical Inheritance: we are using this long time , as we do in java.
 Prototypal Inheritance: simple, flexiable, extensible, easy to understand.
 
+ThirtyFour Code:
+----------------
+app.js
+
+var person = {
+    
+    firstname: 'Default',
+    lastname:'Default',
+    getFullName:  function(){
+        return this.firstname + ' ' + this.lastname;
+    }
+    
+}
+
+var rahul = {
+    firstname: 'Rahul',
+    lastname:'Choudhary',
+}
+
+// dont do this ever for demo purpose only, as this will slow down the execution
+rahul.__proto__ = person;
+
+console.log(rahul.getFullName());
+
+var shalu = {
+    firstname: 'Rahul',
+}
+
+shalu.__proto__ = person;
+console.log(shalu.getFullName());
+
+Reflection:
+-----------
+An object can look at itself, listing and changing its properties and methods.
+
+ThirtyFive Code:
+----------------
+app.js
+
+var person = {
+    
+    firstname: 'Default',
+    lastname:'Default',
+    getFullName:  function(){
+        return this.firstname + ' ' + this.lastname;
+    }
+    
+}
+
+var rahul = {
+    firstname: 'Rahul',
+    address:'Bareilly'
+}
+
+// using underscore .js for inheritance
+
+_.extend(rahul,person);
+
+console.log(rahul);
+
+console.log(rahul.firstname);
+
+console.log(rahul.address);
+
+console.log(rahul.getFullName());
+
+
+
+
+
+
+
 
 
 

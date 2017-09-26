@@ -15,7 +15,24 @@ var rahul = {
 
 // using underscore .js for inheritance
 
-_.extend(rahul,person);
+//_.extend(rahul,person);
+
+rahul.__proto__ = person;
+
+console.log('-----------------');
+for(var prop in rahul){
+    console.log(prop + ' : ' + rahul[prop]);
+}
+console.log('-----------------');
+
+
+console.log('-----------------');
+for(var prop in rahul){
+    if(rahul.hasOwnProperty(prop)){
+    console.log(prop + ' : ' + rahul[prop]);
+    }
+}
+console.log('-----------------');
 
 console.log(rahul);
 

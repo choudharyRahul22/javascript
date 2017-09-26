@@ -1367,6 +1367,151 @@ console.log(rahul.address);
 
 console.log(rahul.getFullName());
 
+Building Objects:
+-----------------
+function constructor , new and history of js.
+
+new will create a new empty object.
+
+function B(){console.log(this);}
+var a = new B();
+
+new will create a new empty object with name B, and 'this' in function B will point to that new object.
+whatever we set using 'this' on function B will set on new object B.
+if we didnt return anything from function B, we will get the new Object B, but if return something than we will get that return value instead of new Object B.
+
+Function Constructor:
+---------------------
+A normal function that is used to construct object.The 'this' variable points a new empty object, and that object is returned from the function automatically.
+
+ThirtySix Code:
+---------------
+app.js
+
+ function Person(firstname,lastname){
+     
+     console.log(this);
+     
+     this.firstname = firstname;
+     this.lasname = lastname;
+     
+     console.log(this);
+     
+     /*return greet = {
+         name:'hello'
+     }*/
+ }
+
+var rahul = new Person('rahul','choudhary');
+
+console.log('rahul object : ' + rahul.firstname + ' ' + rahul.lasname);
+
+var shalu = new Person('shalu','choudhary');
+
+console.log('shalu object : ' + shalu.firstname + ' ' + shalu.lasname);
+
+what happen : new will create an empty object, Person{}.
+Than function Person is invoked where 'this' point to Person{} empty object.
+this.firstname and this.lastname is set on Object Person{}.
+if we return greet which is comment in above code we will get : {name:'hello'}
+if we didnt return anything than we will get : Person {firstname: "rahul", lasname: "choudhary"}
+
+
+Function Constructor and Prototype:
+-----------------------------------
+from above code......
+if we do rahul.__proto__ we will get empty Object Person{}.
+whenever we use functions as function constructor we get specical property on function object.
+we have name , code , call(), apply(), bind().
+we also get prototype property, if we use function as function constructor.
+
+We can add new method or property to function object that just created using new later on.
+
+normally we put property inside function like we put firstname and lastname which used to change but we keep methods on prototype property of function (which is created using new keyword) so if create 1000 object of type person we need to provide the firstname and lastname but method which is common to all need not to repeat or contain by all 1000 objects which create a memory issue.We put the methods on prtotype property and all 1000 objects have access to prototype property.
+just like we have static in java.
+
+so we add prototype property on Person{} object that we get rahul.__proto__
+
+Code Continue:
+--------------
+     function Person(firstname,lastname){
+
+         console.log(this);
+
+         this.firstname = firstname;
+         this.lastname = lastname;
+
+         console.log(this);
+
+         /*return greet = {
+             name:'hello'
+         }*/
+     }
+
+    Person.prototype.getFullName = function(){return this.firstname + ' ' + this.lastname;}
+
+    var rahul = new Person('rahul','choudhary');
+
+    console.log('rahul object : ' + rahul.firstname + ' ' + rahul.lastname);
+
+    var shalu = new Person('shalu','choudhary');
+
+    console.log('shalu object : ' + shalu.firstname + ' ' + shalu.lastname);
+
+    // on console
+   /* 
+    rahul.getFullName()
+    "rahul choudhary"
+    shalu.getFullName()
+    "shalu choudhary"
+   */
+
+Person.prototype.getFormalFullName = function(){return this.lastname + ', ' + this.firstname;}
+
+console.log(rahul.getFullName());
+console.log(rahul.getFormalFullName());
+
+
+Code Continue:
+--------------
+     function Person(firstname,lastname){
+
+         console.log(this);
+
+         this.firstname = firstname;
+         this.lastname = lastname;
+
+         console.log(this);
+
+     }
+
+    Person.prototype.getFullName = function(){return this.firstname + ' ' + this.lastname;}
+
+    var rahul = Person('rahul','choudhary');
+
+if we do like above than Person will run just a normal function and return undefined.
+if we do console.log(rahul.getFullName());
+that is like we do console.log(undefined.getFullName());
+we will get Uncaught error : cannot read property getFullName of undefined.
+
+So we always use First letter of function as capital letter for function constructor.
+
+BuiltIn Function Constructor:
+-----------------------------
+new String('Rahul');
+new Number(3);
+
+String will convert to object if like var a = 'Rahul';
+Number will not convert to Object like var a = 3;
+
+We can add prototype to Number and String and add our custom methods as required.
+
+
+
+
+
+
+
 
 
 

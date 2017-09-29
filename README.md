@@ -1506,11 +1506,194 @@ Number will not convert to Object like var a = 3;
 
 We can add prototype to Number and String and add our custom methods as required.
 
+var a = 3;
+var b = new Number(3);
+
+console.log(a == b); true
+console.log(a === b); false
+
+For date : momentjs.com
+
+Array:
+------
+Looping over array : best way use for (var i = 0 ; i < array.length ; i++) as
+for in loop will give the property that you set on Array prototype property also.
+
+ThirtySeven Code:
+-----------------
+app.js
+
+Array.prototype.customField = 'Rahul';
+
+var arr = ['shalu','ravi','vikas'];
+
+for(var prop in arr){
+    console.log(prop + ' : ' + arr[prop]);
+}
+
+console.log('----------------')
+
+for (var i = 0 ; i < arr.length ; i++) {
+    console.log(i + ' : ' + arr[i]);
+}
+
+Note :
+------
+var person  = {
+        fisrtname:'Default',
+        lastname:'Default',
+        greetname:function(){
+            return 'Hi ' + this.firstname + ' ' + this.lastname
+    }
+}
+In above code we use this inside greetname.greetname will run in its execution context.
+If we didn't use this than firstname will be search inside function greetname and there it will not find firstname, than it will look on outerrefrence that is global execution context there also it will not find firstname.
+So here this point to person object on which firstname sits and from there it finds.
+
+Pure Prototypal Inheritance:
+----------------------------
+In new browsers we can use Object.create() to create pure prototypal inheritance.
+
+if you need any functionality later, add on person object and it will be avialable all object that inherit person object.
+
+ThirtyEight Code:
+-----------------
+app.js
+
+var person = {
+    firstname:'Default',
+    lastname:'Default',
+    greetName:function(){
+        return 'Hi ' + this.firstname + ' ' + this.lastname;
+    }
+}
+
+var rahul = Object.create(person);
+console.log(rahul);
+console.log(rahul.greetName());
 
 
+rahul.firstname = 'Rahul';
+rahul.lastname = 'Choudhary';
+console.log(rahul);
+console.log(rahul.greetName());
+
+Polyfill:
+---------
+Code that adds a feature which the engine may lack.
+older browser has older java script engine which dont have Object.create functionality so we implemented for legacy browsers.
+
+ThirtyEigth Code:
+-----------------
+// polyfill
+if(!Object.create){
+    Object.create = function(o){
+        if(arguments.length > 1){
+            throw new Error('Object.create implementation only takes the first parameter')
+        }
+        
+        function F(){}
+        
+        F.prototype = o;
+        
+        return new F();
+    }
+}
+
+Class and Extends:
+------------------
+Intorduce in ES6
+
+ThirtyNine Code:
+----------------
+app.js
+
+class Person {
+    
+    constructor(firstname,lastname){
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+    
+    greet(){
+        return 'Hi ' + this.firstname + ' ' + this.lastname;
+    }
+    
+}
+
+var rahul = new Person('Rahul','Choudhary');
+console.log(rahul);
+console.log(rahul.greet());
+
+// inheritance 
+class InformalPerson extends Person {
+    
+    constructor(firstname,lastname){
+        super(firstname,lastname);
+    }
+    
+    greet(){
+        return 'Hi from InformalPerson ' + this.firstname + ' ' + this.lastname;
+    }
+    
+} 
+
+var shalu = new Person('Shalu','Choudhary');
+console.log(shalu);
+console.log(shalu.greet());
+
+typeOf , instanceOf :
+---------------------
+typeOf operator takes a parameter and return a result as string.
+
+Forty Code:
+-----------
+app.js
+
+var a = 3;
+console.log(typeof a);
+
+var b = 'rahul';
+console.log(typeof b);
+
+var c = {}
+console.log(typeof c);
+
+var d = []
+console.log(typeof d);
+console.log(Object.prototype.toString.call(d));
+
+function Person(){
+    
+}
+
+var e = new Person();
+console.log(typeof e);
+console.log(e instanceof Person);
 
 
+console.log(typeof undefined);
+console.log(typeof null);
 
+var z= function(){}
+console.log(typeof z);
+
+Strict Mode:
+------------
+every js engine implement 'use strict' in there own way.
+thats why we didnt use throught the course.
+
+Learning from others code:
+--------------------------
+go and look out for open source code js lib.
+
+https://github.com/showcases/front-end-javascript-frameworks
+under src you will find the code.
+
+Jquery:
+-------
+js code that handle cross browser issues.
+it can manupulate the dom.
 
 
 

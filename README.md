@@ -1203,7 +1203,7 @@ ex: multiply.bind(this,2); will bind this and 2 as first parameter permanently.
 if we call mul(4); this will be the second argument and 2 as first argument always.
 if we call mul(3,4); this will take second argument as 3 and 2 as first argument always.
 
-ex: multiply.bind(this,2,3); will bind 2 as first argument and 3 as second argument always.
+ex: multiply.bind(this,2,3); will bind 2 as first argument and 3 as second argument  always.
 if we call mul(4); it wont make any difference and we will get 2*3 = 6 always.
 if we call mul(3,4); it wont make any difference and we will get 2*3 = 6 always.
 
@@ -1546,7 +1546,7 @@ var person  = {
             return 'Hi ' + this.firstname + ' ' + this.lastname
     }
 }
-In above code we use this inside greetname.greetname will run in its execution context.
+In above code we use this inside greetname. greetname will run in its execution context.
 If we didn't use this than firstname will be search inside function greetname and there it will not find firstname, than it will look on outerrefrence that is global execution context there also it will not find firstname.
 So here this point to person object on which firstname sits and from there it finds.
 
@@ -1695,9 +1695,158 @@ Jquery:
 js code that handle cross browser issues.
 it can manupulate the dom.
 
+Lets Build a Framework or Library:
+-----------------------------------
+
+FortyThree Code:
+----------------
+greetr.js
+
+(function(global,$){
+    
+   /* console.log(global);
+    console.log($);*/
+    
+    var Greetr = function(firstName, lastName, language){
+       // console.log('Greetr function called');
+        return new Greetr.init(firstName,lastName,language);
+    }
+    
+    var supportedLanguages = ['en','es'];
+    
+    var greetings = {
+        en:'Hello',
+        es:'Hola'
+    };
+    
+    var formalGreetings = {
+        en:'Greetings',
+        es:'Saludos'
+    };
+    
+    var logMessages = {
+      en: 'Logged in',
+      es: 'Inicio session'
+    };
+    
+    Greetr.prototype = {
+        
+        fullName: function(){
+          return this.firstName + ' ' + this.lastName;  
+        },
+        
+        validate: function(){
+            if(supportedLanguages.indexOf(this.language) === -1){
+                throw 'Invalid Language';
+            }
+        },
+        
+        greetings: function(){
+            return greetings[this.language] + ' ' + this.firstName;
+        },
+        
+        formalGreetings: function(){
+            return formalGreetings[this.language] + ', ' + this.fullName();
+        },
+        
+        greet: function(formal){
+            var msg;
+            
+            if(formal){
+                msg = this.formalGreetings();
+            }
+            else{
+                msg = this.greetings();
+            }
+            
+            if(console){
+                console.log(msg);
+            }
+            
+            return this;
+        },
+        
+        logMessage: function(){
+            if(console){
+                console.log(logMessages[this.language] + ': ' + this.fullName()); 
+            }
+            return this;
+        },
+        
+        setLanguage: function(lang){
+            
+            this.language = lang;
+            
+            this.validate();
+            
+            return this;
+        },
+        
+        HTMLGreeting: function(selector, formal){
+            if(!$){
+                throw 'Jquery not loaded';
+            }
+            
+            if(!selector){
+                throw 'jQuery selector missing';
+            }
+            
+            var msg;
+            
+            if(formal){
+                msg = this.formalGreetings();
+            }
+            else{
+                msg = this.greetings();
+            }
+            
+            $(selector).html(msg);
+            
+            return this;
+        }
+    };
+    
+    Greetr.init = function(firstName,lastName,language){
+        //console.log('Greetr.init function called');
+        var self = this;
+        self.firstName = firstName || '';
+        self.lastName = lastName || '';
+        self.language = language || 'en';
+        
+        self.validate();
+    }
+    
+    Greetr.init.prototype = Greetr.prototype;
+    
+    global.Greetr = global.G$ = Greetr;
+    
+}(window,jQuery)
+)
+
+app.js
+
+var g = G$('Rahul','Choudhary');
+console.log(g);
+
+g.greet().setLanguage('en').greet(true).logMessage();
+
+//g.greet().setLanguage('fs').greet(true);
 
 
+$('#login').click(function(){
+    
+    var loginGreeting = G$('Rahul','Choudhary');
+    
+    $('#logindiv').hide();
+    
+    loginGreeting.setLanguage($('#lang').val()).HTMLGreeting('#greeting',true).logMessage();
+    
+})
 
+Transpile:
+----------
+Convert the syntax of one programming language to another.
+In our case languages like typescript which dont really run anywhere(on engine like js runs), but instead are processed by transpilers that genrate javascript.
 
 
 

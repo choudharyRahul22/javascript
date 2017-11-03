@@ -10,6 +10,9 @@ git status
 // will add the file to repo
 git add javascript.txt
 
+// add all files
+git add -A 
+
 // will lock the file for adding
 git commit -m "javascript.txt file"
 
